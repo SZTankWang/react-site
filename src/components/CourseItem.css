@@ -1,3 +1,33 @@
 li{
     color:aliceblue;
 }
+
+.course-card{
+    color:#5F5B5A;
+    width: 150px;
+    height: 150px;
+    border-radius: 3px;
+    display: flex;
+    flex-direction:column;
+    background-color:white;
+    padding: 2px;
+    border-color: #5F5B5A;
+    border-width: 1px;
+    border-style:solid;
+    transition:0.7s;
+    
+}
+.course-card:hover{
+    background-color:#D9D2D0;
+}
+
+.course-head{
+    font-weight: 200;
+
+}
+
+.course{
+    height:100%;
+    width:100%;
+    padding:2px;
+}
