@@ -1,44 +1,32 @@
-import React, {Component} from 'react';
+import React, {Component,useEffect} from 'react';
 import CourseItem from './CourseItem';
 import "./CourseList.css";
-const schedule = {
-    "title": "CS Courses for 2018-2019",
-    "courses": {
-      "F101" : {
-        "term": "Fall",
-        "number": "101",
-        "meets" : "MWF 11:00-11:50",
-        "title" : "Computer Science: Concepts, Philosophy, and Connections"
-      },
-      "F110" : {
-        "term": "Fall",
-        "number": "110",
-        "meets" : "MWF 10:00-10:50",
-        "title" : "Intro Programming for non-majors"
-      },
-      "S313" : {
-        "term": "Spring",
-        "number": "313",
-        "meets" : "TuTh 15:30-16:50",
-        "title" : "Tangible Interaction Design and Learning"
-      },
-      "S314" : {
-        "term": "Spring",
-        "number": "314",
-        "meets" : "TuTh 9:30-10:50",
-        "title" : "Tech & Human Interaction"
-      }
-    }
-  };
+import { Doquery } from '../utilities/fetch';
 
-class CourseList extends React.Component{
-    render(){
+
+const CourseList = ()=>{
+    
+    //get the data
+    let response = Doquery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
+    console.log("response:",response);
+
+    if(response.isLoading){
+        return "wait";
+    }
+
+    if(response.error){
+        return response.error.message;
+    }
+    
         
-        return <div className="list-container">
-            <ul>{Object.entries(schedule.courses).map((ele,idx)=><CourseItem key={idx} data={ele} />)}</ul>
+    return (
 
-        </div>
-    }
+        <div className="list-container">
+        <ul>{Object.keys(response.data.courses).map((v,i)=><CourseItem key={i} data={response.data.courses[v]}></CourseItem>)}</ul>
+
+    </div>
+);
+    
 
 }
 

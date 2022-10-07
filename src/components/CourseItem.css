@@ -15,6 +15,7 @@ li{
     border-width: 1px;
     border-style:solid;
     transition:0.7s;
+    margin-top: 1em;
     
 }
 .course-card:hover{
