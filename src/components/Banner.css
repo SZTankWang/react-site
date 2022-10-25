@@ -9,3 +9,17 @@ h1{
     padding: 48px;
     justify-content: space-between;
 }
+
+.course-item{
+    display: flex;
+    flex-direction: row;
+    min-width: 512px;
+    margin-top: 13px;
+    background-color: #C0BCBA;
+    padding: 8px;
+}
+
+
+.part{
+    min-width:128px;
+}

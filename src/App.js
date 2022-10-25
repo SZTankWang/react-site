@@ -12,6 +12,9 @@ function App() {
   // const [courses,setCourses] = useState([]);
   const [selected,setSelect] = useState([]);
 
+
+
+
   let response = Doquery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
   // console.log("response:",response);
 
@@ -26,7 +29,7 @@ function App() {
   
     if(response.isLoading){
         return  <div className="App">
-        <Banner term={term} setTerm={setTerm}></Banner>
+        {/* <Banner term={term} setTerm={setTerm}></Banner> */}
         <h1>Loading data</h1>
         </div>
     }
@@ -37,10 +40,10 @@ function App() {
     if(response.data){
       // setData(response.data);
       // setCalled(true);
-
+      // console.log(response.data);
       return (
         <div className="App">
-          <Banner term={term} setTerm={setTerm}></Banner>
+          <Banner term={term} setTerm={setTerm} selected={selected}></Banner>
     
           <CourseList data={response.data} term={term} selected={selected} setSelect={setSelect}></CourseList>
     
