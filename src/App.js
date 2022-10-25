@@ -2,41 +2,65 @@ import logo from './logo.svg';
 import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
-import  { useState } from 'react';
+import  { useState,useEffect } from 'react';
 import { Doquery } from './utilities/fetch';
 
 
 function App() {
+  const [called,setCalled] = useState(false);
   const [term, setTerm] = useState("Fall");
-  const [courses,setCourses] = useState([]);
+  // const [courses,setCourses] = useState([]);
+  const [selected,setSelect] = useState([]);
 
-
-  //get data
-  let data;
   let response = Doquery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
-  console.log("response:",response);
- 
+  // console.log("response:",response);
 
-  if(response.isLoading){
-      console.log("wait") ;
-  }
 
-  if(response.error){
-      console.log(response.error.message) ;
-  }
+  useEffect(()=>{
+    console.log("selected:",selected);
+  },[selected])
+
+
+
+    
   
-  if(response.data){
-    return (
-      <div className="App">
+    if(response.isLoading){
+        return  <div className="App">
         <Banner term={term} setTerm={setTerm}></Banner>
+        <h1>Loading data</h1>
+        </div>
+    }
   
-        <CourseList data={response.data} term={term}></CourseList>
+    if(response.error){
+        // console.log(response.error.message) ;
+    }
+    if(response.data){
+      // setData(response.data);
+      // setCalled(true);
+
+      return (
+        <div className="App">
+          <Banner term={term} setTerm={setTerm}></Banner>
+    
+          <CourseList data={response.data} term={term} selected={selected} setSelect={setSelect}></CourseList>
+    
+          
+        </div>
+      );
   
-        
-      </div>
-    );
+    }
+  
+
+
+
+  
+
   }
 
-}
+  
+
+  
+
+
 
 export default App;

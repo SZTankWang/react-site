@@ -20,7 +20,11 @@ li{
     
 }
 .course-card:hover{
-    background-color:#D9D2D0;
+    cursor:grab;
+}
+
+.active{
+    background-color: cornflowerblue;
 }
 
 .course-head{

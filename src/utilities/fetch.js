@@ -13,6 +13,9 @@ const querydata = async (url) =>{
 }
 
 export const Doquery = (url) => {
-    const {isLoading,isError,data,error} = useQuery(["courses"],()=> querydata(url));
-    return {data,isLoading,error};
+    
+        const {isLoading,isError,data,error} = useQuery(["courses"],()=> querydata(url));
+        return {data,isLoading,error};
+    
+
 }
