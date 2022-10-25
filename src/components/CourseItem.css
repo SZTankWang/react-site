@@ -10,12 +10,13 @@ li{
     display: flex;
     flex-direction:column;
     background-color:white;
-    padding: 2px;
+    padding: 2px; 
     border-color: #5F5B5A;
     border-width: 1px;
     border-style:solid;
     transition:0.7s;
     margin-top: 1em;
+    margin-left:0.9em;
     
 }
 .course-card:hover{

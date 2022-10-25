@@ -1,3 +1,11 @@
 h1{
     color:grey;
 }
+
+.banner-wrapper{
+    height:15%;
+    display: flex;
+    flex-direction: row;
+    padding: 48px;
+    justify-content: space-between;
+}
