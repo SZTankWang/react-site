@@ -20,7 +20,16 @@ li{
     
 }
 .course-card:hover{
-    cursor:grab;
+    /* cursor:grab; */
+}
+
+a{
+    color:cornflowerblue
+}
+
+a:hover{
+
+    cursor:grab
 }
 
 .active{
@@ -41,4 +50,15 @@ li{
 .no{
     color:white;
     background-color: crimson;
+}
+
+.course-button{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    /* padding: */
+}
+
+.active-link>a{
+    color:white;
 }

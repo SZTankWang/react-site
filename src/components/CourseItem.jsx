@@ -1,6 +1,10 @@
 import React, {useState,useEffect} from 'react';
 import './CourseItem.css';
 import {parseDT,checkConflict} from '../utilities/conflict';
+import TextField from '@mui/material/TextField';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 
 
 const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
@@ -11,6 +15,11 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
         
         const [active,setActive] = useState(false);
         const [no,setNo] = useState(false);
+        const [open, setOpen] = React.useState(false);
+        const handleOpen = () => setOpen(true);
+        const handleClose = () => setOpen(false);
+
+
         useEffect(()=>{
             if(active){
                 console.log("add");
@@ -51,24 +60,43 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
             
         },[active]);
 
-        // useEffect(()=>{
-        //     if(no){
-
-        //     }
-        // },[no])
+        const style = {
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            width: 400,
+            bgcolor: 'background.paper',
+            border: '2px solid #000',
+            boxShadow: 24,
+            p: 4,
+            display:"flex",
+            flexDirection:"column"
+          };
+          
         
-        return    <li className= {`course-card ${active ? "active":""} ${no ? "no":""}`} onClick={()=>{
-            //if is already active, remove from selected
-            setActive(active =>!active);
-
-            //else, add to selected
-
-
-
-            }}>
+        return    <li className= {`course-card ${active ? "active":""} ${no ? "no":""}`}>
             <div className="course-head course">{`${data.term} CS ${data.number} `}</div>
             <div className='course-body course'>{data.title}</div>
             <div className="course-foot course">{data.meets}</div>
+            <div className={`course course-button ${active ? "active-link":""}`}>
+                <a onClick={handleOpen}>edit</a>
+                <a onClick={()=>{setActive(active=>!active)}}>{active&&!no ? "deselect":"select"}</a>
+            </div>
+
+            <Modal
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="modal-modal-title"
+            aria-describedby="modal-modal-description"
+            >
+            <Box sx={style}>
+            <TextField id="filled-basic" label="title" variant="filled" defaultValue={data.title}/>
+            <TextField id="filled-basic" label="time" variant="filled" defaultValue={data.meets} />
+            <Button variant="contained" onClick={handleClose}>Cancel</Button>
+
+            </Box>
+        </Modal>
         </li>
 
         
