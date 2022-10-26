@@ -37,3 +37,8 @@ li{
     width:100%;
     padding:2px;
 }
+
+.no{
+    color:white;
+    background-color: crimson;
+}

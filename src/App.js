@@ -12,16 +12,21 @@ function App() {
   // const [courses,setCourses] = useState([]);
   const [selected,setSelect] = useState([]);
 
+  //store parsed time
+  const [parsed,setParsed] = useState({});
 
+  useEffect(()=>{
+    console.log("selected:",selected);
+  },[selected])
+
+  useEffect(()=>{
+    console.log("parsed:",parsed);
+  },[parsed]);
 
 
   let response = Doquery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
   // console.log("response:",response);
 
-
-  useEffect(()=>{
-    console.log("selected:",selected);
-  },[selected])
 
 
 
@@ -45,7 +50,7 @@ function App() {
         <div className="App">
           <Banner term={term} setTerm={setTerm} selected={selected}></Banner>
     
-          <CourseList data={response.data} term={term} selected={selected} setSelect={setSelect}></CourseList>
+          <CourseList data={response.data} term={term} selected={selected} setSelect={setSelect} parsed={parsed} setParsed={setParsed}></CourseList>
     
           
         </div>
