@@ -5,9 +5,15 @@ import TextField from '@mui/material/TextField';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+// import DialogTitle from '@mui/material/DialogTitle';
+import {write} from '../utilities/fetch';
 
-
-const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
+const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited})=>{
 
         // let data = this.props.data;
         // term+num, title, time
@@ -16,14 +22,18 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
         const [active,setActive] = useState(false);
         const [no,setNo] = useState(false);
         const [open, setOpen] = React.useState(false);
+        const [dOpen,setDopen] = useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
+        const handleDClose = ()=> setDopen(false);
         const [title, setTitle] = React.useState(data.title);
         const [errorMessage, setErrorMessage] = React.useState("");
         const [time, setTime] = React.useState(data.meets);
         const [errorMessageT, setErrorMessageT] = React.useState("");
         const [timeLegal,setTimeLegal] = useState(true);
 
+        const originalTitle=data.title;
+        const originalTime = data.meets;
 
         useEffect(() => {
             // Set errorMessage only if text is equal or bigger than MAX_LENGTH
@@ -124,6 +134,25 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
             
         },[active]);
 
+        const handleSubmit = ()=>{
+            //change helpertext
+            // setErrorMessageT("nothing changed yet");
+            //if time and title have been changed?
+            // console.log("number",number);
+            if(time == originalTime && title == originalTitle){
+                setDopen(true);
+                return
+            }
+            if(!timeLegal || title.length < 2){
+                setDopen(true);
+                return
+            }
+            //update data
+            write(number,{"meets":time,"number":data.number,"term":data.term,"title":title}).then(rsp=>{
+              setEdited(true);
+              handleClose();
+            });
+        }
         const style = {
             position: 'absolute',
             top: '50%',
@@ -165,9 +194,30 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
             error={!timeLegal}
             helperText={errorMessageT}
             onChange={(e) => setTime(e.target.value)}
-            id="filled-basic" label="time" variant="filled" defaultValue={data.meets} />
+            id="filled-basic" label="time" variant="filled" value={time} />
+            <div className='button-container'>
             <Button variant="contained" onClick={handleClose}>Cancel</Button>
+            <Button variant="contained" onClick={handleSubmit}>Submit</Button>
+            </div>
+            <Dialog
+        open={dOpen}
+        onClose={handleDClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"warning"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Check your form. Either you havn't made changes yet or there are errors in your input
+              </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleDClose}>back</Button>
 
+        </DialogActions>
+      </Dialog>
             </Box>
         </Modal>
         </li>

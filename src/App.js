@@ -3,7 +3,7 @@ import './App.css';
 import Banner from './components/Banner';
 import CourseList from './components/CourseList';
 import  { useState,useEffect } from 'react';
-import { getData} from './utilities/fetch';
+import { getData,listenToUpdate} from './utilities/fetch';
 
 
 function App() {
@@ -12,6 +12,7 @@ function App() {
   const [term, setTerm] = useState("Fall");
   // const [courses,setCourses] = useState([]);
   const [selected,setSelect] = useState([]);
+  const [edited,setEdited] = useState(false);
 
   //store parsed time
   const [parsed,setParsed] = useState({});
@@ -24,12 +25,18 @@ function App() {
     console.log("parsed:",parsed);
   },[parsed]);
 
+  // useEffect(()=>{
+    
+  //   const data =getData();
+  //   data.then((rsp)=>{
+  //     console.log(rsp);
+  //     setCourses(rsp);
+  //   })
+  // },[])
+
   useEffect(()=>{
-    const data =getData();
-    data.then((rsp)=>{
-      console.log(rsp);
-      setCourses(rsp);
-    })
+    const data = listenToUpdate(setCourses);
+    console.log("data",data);
   },[])
 
   // let response = Doquery("https://courses.cs.northwestern.edu/394/guides/data/cs-courses.php");
@@ -39,8 +46,8 @@ function App() {
   
   // console.log(data);
   let course_list;
-  if(courses){
-    course_list = <CourseList data={courses} term={term} selected={selected} setSelect={setSelect} parsed={parsed} setParsed={setParsed}></CourseList>
+  if(courses ){
+    course_list = <CourseList data={courses} term={term} selected={selected} setSelect={setSelect} parsed={parsed} setParsed={setParsed} setEdited={setEdited}></CourseList>
 
   }
   else{

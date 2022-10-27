@@ -1,7 +1,7 @@
 import {useQuery} from "@tanstack/react-query";
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, child, get } from "firebase/database";
-
+import { getDatabase, ref, child, get, set,onValue } from "firebase/database";
+// import {getFunctions} from 'firebase/functions';
 
 const firebaseConfig = {
     apiKey: "AIzaSyCgrf1V3iGvSd3R6qqxIPaEx9H2__lLZRA",
@@ -17,6 +17,8 @@ const firebaseConfig = {
 
   // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// const functions = getFunctions(app);
 
 const database = getDatabase(app);
 
@@ -37,6 +39,23 @@ export const getData = ()=>{
       
 }
 
+
+export const listenToUpdate = (setCourses)=>{
+  const courseRef = ref(database,"course-data/courses/");
+    onValue(courseRef,(snapshot)=>{
+    console.log("updated:",snapshot.val());
+    if(snapshot.val()!=null){
+      console.log("setting courses",snapshot.val());
+      setCourses(snapshot.val());
+    }
+    // setCourses(snapshot.val());
+    // return snapshot.val();
+  })
+}
+
+export const write = (course,newData)=>{
+  return set(ref(database,"course-data/courses/"+course),newData);
+}
 
 
 // const querydata = async (url) =>{

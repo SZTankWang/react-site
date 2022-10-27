@@ -62,3 +62,9 @@ a:hover{
 .active-link>a{
     color:white;
 }
+
+.button-container{
+    display: flex;
+    justify-content: space-evenly;
+    padding-top: 16px;
+}
