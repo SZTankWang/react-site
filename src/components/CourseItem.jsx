@@ -18,7 +18,71 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
         const [open, setOpen] = React.useState(false);
         const handleOpen = () => setOpen(true);
         const handleClose = () => setOpen(false);
+        const [title, setTitle] = React.useState(data.title);
+        const [errorMessage, setErrorMessage] = React.useState("");
+        const [time, setTime] = React.useState(data.meets);
+        const [errorMessageT, setErrorMessageT] = React.useState("");
+        const [timeLegal,setTimeLegal] = useState(true);
 
+
+        useEffect(() => {
+            // Set errorMessage only if text is equal or bigger than MAX_LENGTH
+            if (title.length < 2) {
+              setErrorMessage(
+                "course title must be at least 2 characters"
+              );
+            }
+          }, [title]);
+          useEffect(() => {
+            // Set empty erroMessage only if text is less than MAX_LENGTH
+            // and errorMessage is not empty.
+            // avoids setting empty errorMessage if the errorMessage is already empty
+            if (title.length >=2 && errorMessage) {
+              setErrorMessage("");
+            }
+          }, [title, errorMessage]);
+
+          useEffect(() => {
+            // Set errorMessage only if text is equal or bigger than MAX_LENGTH
+            const found = time.match(/\w+\s\d{2}:\d{2}-\d{2}:\d{2}/g);
+            if (found==null) {
+                console.log("wrong time")
+              setErrorMessageT(
+                "must contain days and start-end, e.g., MWF 12:00-13:20"
+              );
+              setTimeLegal(false);
+            }
+            else{
+                //check legal time
+                const digits = time.match(/(\d+)/g);
+                // console.log(digits);
+                if(digits[0]>digits[2] ){
+                    // console.log("illegal time")
+                    setTimeLegal(false);
+                }
+                if(digits[0]==digits[2]&&digits[1]>=digits[3]){
+                    // console.log("illegal time")
+                    setTimeLegal(false);                   
+                }
+                if( digits[0]>23 || digits[2]>23 || digits[1]>59 || digits[3]>59){
+                    console.log("illegal time")
+                    setTimeLegal(false);
+                }
+                else{
+                    setTimeLegal(true);
+
+                }
+            }
+          }, [time]);
+          useEffect(() => {
+            // Set empty erroMessage only if text is less than MAX_LENGTH
+            // and errorMessage is not empty.
+            // avoids setting empty errorMessage if the errorMessage is already empty
+            if (timeLegal && errorMessageT) {
+                console.log("clear time error");
+              setErrorMessageT("");
+            }
+          }, [time, errorMessageT]);
 
         useEffect(()=>{
             if(active){
@@ -91,8 +155,17 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed})=>{
             aria-describedby="modal-modal-description"
             >
             <Box sx={style}>
-            <TextField id="filled-basic" label="title" variant="filled" defaultValue={data.title}/>
-            <TextField id="filled-basic" label="time" variant="filled" defaultValue={data.meets} />
+            <TextField 
+            error={title.length < 2}
+            onChange={(e) => setTitle(e.target.value)}
+            helperText={errorMessage}
+            id="filled-basic" label="title" variant="filled"  value={title}/>
+            
+            <TextField 
+            error={!timeLegal}
+            helperText={errorMessageT}
+            onChange={(e) => setTime(e.target.value)}
+            id="filled-basic" label="time" variant="filled" defaultValue={data.meets} />
             <Button variant="contained" onClick={handleClose}>Cancel</Button>
 
             </Box>
