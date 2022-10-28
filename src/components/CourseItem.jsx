@@ -13,7 +13,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 // import DialogTitle from '@mui/material/DialogTitle';
 import {write} from '../utilities/fetch';
 
-const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited})=>{
+const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited,admin})=>{
 
         // let data = this.props.data;
         // term+num, title, time
@@ -167,13 +167,23 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited})
             flexDirection:"column"
           };
           
+        const EditButton = ()=>{
+          if(admin){
+          return  <a onClick={handleOpen}>edit</a>
+          }
+          else{
+            return ""
+          }
+        }
         
         return    <li className= {`course-card ${active ? "active":""} ${no ? "no":""}`}>
             <div className="course-head course">{`${data.term} CS ${data.number} `}</div>
             <div className='course-body course'>{data.title}</div>
             <div className="course-foot course">{data.meets}</div>
             <div className={`course course-button ${active ? "active-link":""}`}>
-                <a onClick={handleOpen}>edit</a>
+
+
+                <EditButton></EditButton>
                 <a onClick={()=>{setActive(active=>!active)}}>{active&&!no ? "deselect":"select"}</a>
             </div>
 

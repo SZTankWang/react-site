@@ -1,6 +1,9 @@
-import {useQuery} from "@tanstack/react-query";
+// import {useQuery} from "@tanstack/react-query";
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, child, get, set,onValue } from "firebase/database";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { useState,useEffect } from 'react';
+
 // import {getFunctions} from 'firebase/functions';
 
 const firebaseConfig = {
@@ -58,22 +61,43 @@ export const write = (course,newData)=>{
 }
 
 
-// const querydata = async (url) =>{
-//     return await fetch(url)
-//     .then((rsp) => {
-//         if(!rsp.ok){
-//             throw new Error("network response not ok");
-//         }
-//         return rsp.json();
+export const signInWithGoogle = (setAdmin) => {
+  signInWithPopup(getAuth(app), new GoogleAuthProvider());
+};
 
-//     })
+const firebaseSignOut = () => {
+  signOut(getAuth(app))
+  // setAdmin(false);
+};
 
-// }
+export { firebaseSignOut as signOut };
 
-// export const Doquery = (url) => {
-    
-//         const {isLoading,isError,data,error} = useQuery(["courses"],()=> querydata(url));
-//         return {data,isLoading,error};
-    
+export const useAuthState = () => {
+  const [user, setUser] = useState();
+  
+  useEffect(() => (
+    onAuthStateChanged(getAuth(app), setUser)
+  ));
 
-// }
+  return [user];
+};
+
+export const queryAdmin = (name,setAdmin)=>{
+  get(child(dbRef, "admin")).then((snapshot) => {
+    if (snapshot.exists()) {
+      console.log("admin",snapshot.val());
+      //find admin
+      // const all = Object.keys(snapshot.val());
+      // console.log("all",all);
+      if(name == snapshot.val()){
+        setAdmin(true);
+        // setV(true);
+      }
+    } else {
+      console.log("No data available");
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+  
+}

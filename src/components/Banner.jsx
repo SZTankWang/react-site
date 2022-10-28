@@ -10,6 +10,7 @@ import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
+import { signInWithGoogle, signOut, useAuthState ,queryAdmin} from '../utilities/fetch';
 
 import "./Banner.css";
 
@@ -30,7 +31,11 @@ const style = {
     marginTop:16
   }
 
-const Banner = ({term,setTerm,selected}) =>{
+
+
+  
+  
+const Banner = ({term,setTerm,selected,setAdmin,verified}) =>{
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => {
@@ -47,9 +52,28 @@ const Banner = ({term,setTerm,selected}) =>{
     }
 
 
+    const AuthButton = () => {
+      const [user] = useAuthState();
+      // console.log(user);
+      //query admin
+        if(user){
+          queryAdmin(user.email,setAdmin);
+        }
+        else{
+          setAdmin(false);
+        }
+
+      return user ? <SignOutButton /> : <SignInButton />;
+    };
+
+    const SignInButton = () => (
+      <Button variant="contained" onClick={signInWithGoogle}>Sign in</Button>
+    );
     
-
-
+    const SignOutButton = (setAdmin) => (
+      <Button variant="contained" onClick={signOut}>Sign out</Button>
+    );
+  
         return <div className='banner-wrapper'>
         <FormControl>
         <FormLabel id="demo-row-radio-buttons-group-label">Term</FormLabel>
@@ -66,6 +90,7 @@ const Banner = ({term,setTerm,selected}) =>{
         </RadioGroup>
       </FormControl>
       <Button onClick={handleOpen}>selected courses</Button>
+      <AuthButton></AuthButton>  
       <Modal
         open={open}
         onClose={handleClose}
