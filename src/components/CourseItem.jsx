@@ -176,7 +176,8 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited,a
           }
         }
         
-        return    <li className= {`course-card ${active ? "active":""} ${no ? "no":""}`}>
+        return    <div data-cy="course">
+          <li className= {`course-card ${active ? "active":""} ${no ? "no":""}`}>
             <div className="course-head course">{`${data.term} CS ${data.number} `}</div>
             <div className='course-body course'>{data.title}</div>
             <div className="course-foot course">{data.meets}</div>
@@ -231,6 +232,7 @@ const CourseItem = ({data,selected,setSelect,parsed,setParsed,number,setEdited,a
             </Box>
         </Modal>
         </li>
+          </div>
 
         
 
