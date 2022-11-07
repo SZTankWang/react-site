@@ -85,7 +85,7 @@ const Banner = ({term,setTerm,selected,setAdmin,verified}) =>{
 
         >
           <FormControlLabel value="Fall" control={<Radio />} label="Fall" />
-          <FormControlLabel value="Winter" control={<Radio />} label="Winter" />
+          <FormControlLabel data-cy="Winter" value="Winter" control={<Radio />} label="Winter" />
           <FormControlLabel value="Spring" control={<Radio />} label="Spring" />
         </RadioGroup>
       </FormControl>

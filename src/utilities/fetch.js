@@ -1,7 +1,7 @@
 // import {useQuery} from "@tanstack/react-query";
-import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, child, get, set,onValue } from "firebase/database";
-import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut } from 'firebase/auth';
+import { initializeApp,getApps,getApp } from 'firebase/app';
+import { getDatabase, ref, child, get, set,onValue,connectDatabaseEmulator } from "firebase/database";
+import { getAuth, GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut,connectAuthEmulator,signInWithCredential } from 'firebase/auth';
 import { useState,useEffect } from 'react';
 
 // import {getFunctions} from 'firebase/functions';
@@ -19,7 +19,10 @@ const firebaseConfig = {
 
 
   // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+  const app = getApps().length === 0
+  ? initializeApp(firebaseConfig)
+  : getApp(); 
+// const app = initializeApp(firebaseConfig);
 
 // const functions = getFunctions(app);
 
@@ -27,6 +30,16 @@ const database = getDatabase(app);
 
 const dbRef = ref(database);
 
+const auth = getAuth(app);
+
+if (process.env.REACT_APP_EMULATE) {
+  connectAuthEmulator(auth, "http://127.0.0.1:9099");
+  connectDatabaseEmulator(database, "127.0.0.1", 9000);
+
+  signInWithCredential(auth, GoogleAuthProvider.credential(
+    '{"sub": "Wh7KPUxXcfz8mH9dOGfkKZJvAr0S", "email": "zw1806@nyu.edu", "displayName":"zhenming test", "email_verified": true}'
+  ));
+}
 
 export const getData = ()=>{
     return get(child(dbRef, `course-data`)).then((snapshot) => {
