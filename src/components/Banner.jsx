@@ -1,5 +1,5 @@
 
-import React, {Component} from 'react';
+import React, {Component, useEffect} from 'react';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -38,6 +38,16 @@ const style = {
 const Banner = ({term,setTerm,selected,setAdmin,verified}) =>{
 
     const [open, setOpen] = React.useState(false);
+    const [user] = useAuthState();
+
+    useEffect(()=>{
+      if(user){
+        queryAdmin(user.email,setAdmin);
+      }
+      else{
+        setAdmin(false);
+      }
+    },[user]);
     const handleOpen = () => {
         
         setOpen(true)
@@ -53,15 +63,10 @@ const Banner = ({term,setTerm,selected,setAdmin,verified}) =>{
 
 
     const AuthButton = () => {
-      const [user] = useAuthState();
+      
       // console.log(user);
       //query admin
-        if(user){
-          queryAdmin(user.email,setAdmin);
-        }
-        else{
-          setAdmin(false);
-        }
+
 
       return user ? <SignOutButton /> : <SignInButton />;
     };
