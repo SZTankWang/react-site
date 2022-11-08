@@ -1,7 +1,10 @@
-14:03:11.103 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
-14:03:11.185 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
-14:03:11.495 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wp2ws-week10 successfully activated FBKV (SurveyIdle(0)) wait: 64ms, init: 0ms
-15:15:03.987 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
-15:15:03.992 [NamespaceSystem-akka.actor.default-dispatcher-70] INFO com.firebase.core.namespace.Terminator$Terminator - 1 actors left to terminate: wp2ws-week10
-15:15:03.995 [NamespaceSystem-akka.actor.default-dispatcher-70] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for wp2ws-week10
-15:15:03.997 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
+11:28:14.647 [NamespaceSystem-akka.actor.default-dispatcher-5] INFO akka.event.slf4j.Slf4jLogger - Slf4jLogger started
+11:28:14.728 [main] INFO com.firebase.server.forge.App$ - Listening at 127.0.0.1:9000
+11:28:15.031 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wp2ws-week10 successfully activated FBKV (SurveyIdle(0)) wait: 62ms, init: 0ms
+11:28:19.984 [NamespaceSystem-akka.actor.default-dispatcher-6] INFO com.firebase.core.namespace.NamespaceActor - wp2ws-week10-default-rtdb successfully activated FBKV (SurveyIdle(0)) wait: 0ms, init: 0ms
+11:28:19.994 [NamespaceSystem-blocking-namespace-operation-dispatcher-8] INFO com.firebase.core.namespace.StateManager - Namespace wp2ws-week10-default-rtdb status Active to Active
+11:32:52.815 [Thread-0] INFO com.firebase.server.forge.App$ - Attempting graceful shutdown.
+11:32:52.820 [NamespaceSystem-akka.actor.default-dispatcher-12] INFO com.firebase.core.namespace.Terminator$Terminator - 2 actors left to terminate: wp2ws-week10-default-rtdb, wp2ws-week10
+11:32:52.822 [NamespaceSystem-akka.actor.default-dispatcher-24] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for wp2ws-week10-default-rtdb
+11:32:52.822 [NamespaceSystem-akka.actor.default-dispatcher-26] INFO com.firebase.core.namespace.NamespaceActor - stopped namespace actor for wp2ws-week10
+11:32:52.824 [Thread-0] INFO com.firebase.server.forge.App$ - Graceful shutdown complete.
